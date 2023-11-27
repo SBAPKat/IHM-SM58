@@ -28,7 +28,7 @@ namespace IHM_MC43 {
 			InitializeComponent();
 			//
 			//TODO : ajoutez ici le code du constructeur
-			serialPort1->Open();
+			//serialPort1->Open();
 			ind = 0 ;	// initialisation de l’indice
 			numbyte = 0;
 			typevar = 0;
@@ -41,22 +41,46 @@ namespace IHM_MC43 {
 			V1max = 3.0 ; 	// ordonnée la plus élevée à afficher (à adapter aux données)
 			dy_V1 = V1max-V1min;	// zone d’affichage choisie (à adapter en fonction du zoom voulu)
 			y0_V1 = V1min;			// ordonnée du bas du graphe choisie (à adapter aux données)
-			pen_V1 = gcnew Pen( Color::Blue,1.0f );	// couleur, taille du trait de la courbe
+			pen_V1 = gcnew Pen( Color::Blue,2.0f );	// couleur, taille du trait de la courbe
 
 			//variables relatives à V2
 			Tab_V2 = gcnew array< double >(taille);	// allocation dynamique de 1000 éléments
 			Taff_V2 = gcnew array< PointF >(taille);	// allocation de 1000 points à Taff_V1
 			k_V2 = 1.0;	// facteur d'échelle de la donnée reçue (à adapter selon le capteur relié au DSP)
-			V2min = -1500.0 ;		// ordonnée la plus faible à afficher (à adapter aux données)
-			V2max = 1500.0 ; 	// ordonnée la plus élevée à afficher (à adapter aux données)
-			dy_V2 = V2max-V2min;	// zone d’affichage choisie (à adapter en fonction du zoom voulu)
+			V2min = -1500.0;		// ordonnée la plus faible à afficher (à adapter aux données)
+			V2max = 1500.0; 	// ordonnée la plus élevée à afficher (à adapter aux données)
+			dy_V2 = V2max - V2min;	// zone d’affichage choisie (à adapter en fonction du zoom voulu)
 			y0_V2 = V2min;			// ordonnée du bas du graphe choisie (à adapter aux données)
-			pen_V2 = gcnew Pen( Color::Red,1.0f );	// couleur, taille du trait de la courbe
+			pen_V2 = gcnew Pen(Color::Red, 2.0f);	// couleur, taille du trait de la courbe
 
-			pen2 = gcnew Pen( Color::White,1.0f );	// couleur, taille du trait de la grille
+
+			//variables relatives à V3
+			Tab_V3 = gcnew array< double >(taille);	// allocation dynamique de 1000 éléments
+			Taff_V3 = gcnew array< PointF >(taille);	// allocation de 1000 points à Taff_V1
+			k_V3 = 1.0;	// facteur d'échelle de la donnée reçue (à adapter selon le capteur relié au DSP)
+			V3min = -1500.0;		// ordonnée la plus faible à afficher (à adapter aux données)
+			V3max = 1500.0; 	// ordonnée la plus élevée à afficher (à adapter aux données)
+			dy_V3 = V3max - V3min;	// zone d’affichage choisie (à adapter en fonction du zoom voulu)
+			y0_V3 = V3min;			// ordonnée du bas du graphe choisie (à adapter aux données)
+			pen_V3 = gcnew Pen(Color::Orange, 2.0f);	// couleur, taille du trait de la courbe
+
+
+			//variables relatives à V2
+			Tab_V4 = gcnew array< double >(taille);	// allocation dynamique de 1000 éléments
+			Taff_V4 = gcnew array< PointF >(taille);	// allocation de 1000 points à Taff_V1
+			k_V4 = 1.0;	// facteur d'échelle de la donnée reçue (à adapter selon le capteur relié au DSP)
+			V4min = -1500.0;		// ordonnée la plus faible à afficher (à adapter aux données)
+			V4max = 1500.0; 	// ordonnée la plus élevée à afficher (à adapter aux données)
+			dy_V4 = V4max - V4min;	// zone d’affichage choisie (à adapter en fonction du zoom voulu)
+			y0_V4 = V4min;			// ordonnée du bas du graphe choisie (à adapter aux données)
+			pen_V4 = gcnew Pen(Color::Green, 2.0f);	// couleur, taille du trait de la courbe
+
+			pen2 = gcnew Pen( Color::Black,1.0f );	// couleur, taille du trait de la grille
 			pen2->DashStyle = System::Drawing::Drawing2D::DashStyle::Dash;	// pointillés
 			//
 		}
+
+
 
 	protected:
 		/// <summary>
@@ -91,14 +115,33 @@ namespace IHM_MC43 {
 
 		//variables relatives à V2
 		array< double >^ Tab_V2;	// déclaration du tableau des données reçues
-		double k_V2 ;				// facteur d’échelle de la donnée V1 et V2
+		double k_V2;				// facteur d’échelle de la donnée V1 et V2
 		array< PointF >^ Taff_V2;	// déclaration du tableau de PointF (identique à une structure de deux doubles X et Y : chaque élément de Taff_V1 est accessible par la syntaxe Taff_V1[i].X et Taff_V1[i].Y)
 		double V2min, V2max, dy_V2, y0_V2;	// variables permettant la mise à l’échelle du tracé
 		Pen^ pen_V2;		// variable définissant le style de tracé de la courbe
+
+		//variables relatives à V3
+		array< double >^ Tab_V3;	// déclaration du tableau des données reçues
+		double k_V3;				// facteur d’échelle de la donnée V1 et V2
+		array< PointF >^ Taff_V3;	// déclaration du tableau de PointF (identique à une structure de deux doubles X et Y : chaque élément de Taff_V1 est accessible par la syntaxe Taff_V1[i].X et Taff_V1[i].Y)
+		double V3min, V3max, dy_V3, y0_V3;	// variables permettant la mise à l’échelle du tracé
+		Pen^ pen_V3;		// variable définissant le style de tracé de la courbe
+
+		//variables relatives à V4
+		array< double >^ Tab_V4;	// déclaration du tableau des données reçues
+		double k_V4;				// facteur d’échelle de la donnée V1 et V2
+		array< PointF >^ Taff_V4;	// déclaration du tableau de PointF (identique à une structure de deux doubles X et Y : chaque élément de Taff_V1 est accessible par la syntaxe Taff_V1[i].X et Taff_V1[i].Y)
+		double V4min, V4max, dy_V4, y0_V4;	// variables permettant la mise à l’échelle du tracé
+		Pen^ pen_V4;		// variable définissant le style de tracé de la courbe
+
 	private: System::Windows::Forms::PictureBox^  pictureBox1;
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::PictureBox^  pictureBox2;
 	private: System::Windows::Forms::Label^  label2;
+	private: System::Windows::Forms::Label^ label3;
+	private: System::Windows::Forms::PictureBox^ pictureBox3;
+	private: System::Windows::Forms::Label^ label4;
+	private: System::Windows::Forms::PictureBox^ pictureBox4;
 
 		Pen^ pen2;	// variable définissant le style de tracé de la grille
 		/// </summary>
@@ -117,8 +160,14 @@ namespace IHM_MC43 {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
+			this->label4 = (gcnew System::Windows::Forms::Label());
+			this->pictureBox4 = (gcnew System::Windows::Forms::PictureBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// serialPort1
@@ -139,16 +188,16 @@ namespace IHM_MC43 {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(157, 34);
+			this->label1->Location = System::Drawing::Point(116, 34);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(34, 13);
+			this->label1->Size = System::Drawing::Size(152, 13);
 			this->label1->TabIndex = 1;
-			this->label1->Text = L"Voie0";
+			this->label1->Text = L"Vitesse roues appliquée [RPM]";
 			// 
 			// pictureBox2
 			// 
 			this->pictureBox2->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
-			this->pictureBox2->Location = System::Drawing::Point(364, 61);
+			this->pictureBox2->Location = System::Drawing::Point(328, 61);
 			this->pictureBox2->Name = L"pictureBox2";
 			this->pictureBox2->Size = System::Drawing::Size(269, 211);
 			this->pictureBox2->TabIndex = 0;
@@ -158,17 +207,59 @@ namespace IHM_MC43 {
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(488, 34);
+			this->label2->Location = System::Drawing::Point(419, 34);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(34, 13);
+			this->label2->Size = System::Drawing::Size(83, 13);
 			this->label2->TabIndex = 1;
-			this->label2->Text = L"Voie1";
+			this->label2->Text = L"Couple appliqué";
+			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->Location = System::Drawing::Point(710, 34);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(82, 13);
+			this->label3->TabIndex = 3;
+			this->label3->Text = L"Courant Mesuré";
+			// 
+			// pictureBox3
+			// 
+			this->pictureBox3->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+			this->pictureBox3->Location = System::Drawing::Point(619, 61);
+			this->pictureBox3->Name = L"pictureBox3";
+			this->pictureBox3->Size = System::Drawing::Size(269, 211);
+			this->pictureBox3->TabIndex = 2;
+			this->pictureBox3->TabStop = false;
+			this->pictureBox3->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::pictureBox3_Paint);
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->Location = System::Drawing::Point(985, 34);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(146, 13);
+			this->label4->TabIndex = 5;
+			this->label4->Text = L"Vitesse roues mesurée [RPM]";
+			// 
+			// pictureBox4
+			// 
+			this->pictureBox4->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+			this->pictureBox4->Location = System::Drawing::Point(904, 61);
+			this->pictureBox4->Name = L"pictureBox4";
+			this->pictureBox4->Size = System::Drawing::Size(269, 211);
+			this->pictureBox4->TabIndex = 4;
+			this->pictureBox4->TabStop = false;
+			this->pictureBox4->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::pictureBox4_Paint);
 			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1203, 546);
+			this->ClientSize = System::Drawing::Size(1325, 546);
+			this->Controls->Add(this->label4);
+			this->Controls->Add(this->pictureBox4);
+			this->Controls->Add(this->label3);
+			this->Controls->Add(this->pictureBox3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->pictureBox2);
@@ -177,6 +268,8 @@ namespace IHM_MC43 {
 			this->Text = L"Form1";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -189,7 +282,7 @@ namespace IHM_MC43 {
 					 Byte x=serialPort1->ReadByte();	// lecture d’une valeur du buffer
 					 switch(typevar)	// typevar définit le param en cours de lecture
 					 {
-					 case 'a':	// réception des données (V1 et V2) à tracer (identifiant ‘a’)
+					 case 's':	// réception des données (V1 et V2) à tracer (identifiant ‘s’)
 						 if(numbyte==0)	// réception du LSB de V1
 						 {
 							 temp16s=x;
@@ -230,6 +323,8 @@ namespace IHM_MC43 {
 				 }
 				 pictureBox1->Invalidate();
 				 pictureBox2->Invalidate();
+				 pictureBox3->Invalidate();
+				 pictureBox4->Invalidate();
 			 }
 
    private: void grid(Graphics^ g, UInt16 hauteur, UInt16 largeur, double frac) {
@@ -268,6 +363,30 @@ private: System::Void pictureBox2_Paint(System::Object^  sender, System::Windows
 			 grid(g,pictureBox2->Height,pictureBox2->Width,10);
 			 g->DrawLines( pen_V2, Taff_V2);		// trace de la courbe complète
 		 }
+private: System::Void pictureBox3_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+		   Graphics^ g = e->Graphics;	// variable g pointant sur la fenêtre graphique
+		   if (pictureBox3->Width < 5) return;	// détecte si la fenêtre est trop petite
+		   if (pictureBox3->Height < 5) return;
+		   for (UInt16 i = 0; i < 1000; i++) 	// calcul du tableau de points pour l’affichage
+		   {
+			   Taff_V3[i].X = pictureBox3->Width * (double)i / 1000.0;	// abscisse
+			   Taff_V3[i].Y = (pictureBox3->Height - 5) - (pictureBox3->Height - 5) * (Tab_V3[i] - y0_V3) / dy_V3;	// ordonnée
+		   }
+		   grid(g, pictureBox3->Height, pictureBox3->Width, 10);
+		   g->DrawLines(pen_V3, Taff_V3);		// trace de la courbe complète
+	   }
+private: System::Void pictureBox4_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+	Graphics^ g = e->Graphics;	// variable g pointant sur la fenêtre graphique
+	if (pictureBox4->Width < 5) return;	// détecte si la fenêtre est trop petite
+	if (pictureBox4->Height < 5) return;
+	for (UInt16 i = 0; i < 1000; i++) 	// calcul du tableau de points pour l’affichage
+	{
+		Taff_V4[i].X = pictureBox4->Width * (double)i / 1000.0;	// abscisse
+		Taff_V4[i].Y = (pictureBox4->Height - 5) - (pictureBox4->Height - 5) * (Tab_V4[i] - y0_V4) / dy_V4;	// ordonnée
+	}
+	grid(g, pictureBox4->Height, pictureBox4->Width, 10);
+	g->DrawLines(pen_V4, Taff_V4);		// trace de la courbe complète
+}
 
 };
 }
