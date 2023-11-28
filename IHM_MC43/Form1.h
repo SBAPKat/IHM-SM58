@@ -3,7 +3,44 @@
 #define taille 1000
 #include "stdio.h"
 #include "string.h"
+#include <memory>
+#include "Communication.h"
 
+#define MAX_MSG_SIZE 25
+
+namespace Communication_SCI {
+
+		union Transmitted_16b_value {
+		unsigned int value;
+		struct {
+			char MSB;
+			char LSB;
+		}bytes;
+	};
+
+	union Message_SIM {
+		unsigned char data[MAX_MSG_SIZE];
+		struct {
+			char Header;
+			Transmitted_16b_value wheelSpeed;
+			Transmitted_16b_value wheelTorque;
+		};
+
+
+	};
+
+	union Message_MES {
+		unsigned char data[MAX_MSG_SIZE];
+		struct {
+			char Header;
+			Transmitted_16b_value motorCurrent;
+			Transmitted_16b_value wheelSpeed;
+
+		};
+
+
+	};
+}
 namespace IHM_MC43 {
 
 	using namespace System;
@@ -12,6 +49,7 @@ namespace IHM_MC43 {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace Communication_SCI;
 
 	/// <summary>
 	/// Description résumée de Form1
@@ -31,6 +69,9 @@ namespace IHM_MC43 {
 			//
 			//TODO : ajoutez ici le code du constructeur
 			//serialPort1->Open();
+			simulationMessage = new Message_SIM;
+			measureMessage = new Message_MES;
+
 			ind = 0 ;	// initialisation de l’indice
 			numbyte = 0;
 			typevar = 0;
@@ -101,6 +142,13 @@ namespace IHM_MC43 {
 	private: System::ComponentModel::IContainer^  components;
 
 	private:
+		
+
+		//message structures:
+		Message_SIM* simulationMessage;
+		Message_MES* measureMessage;
+
+
 		/// <summary>
 		/// Variables nécessaires au concepteur.
 		UInt16 ind ;		// indice utilisé pour le stockage dans les tableaux
@@ -363,7 +411,7 @@ private: System::Windows::Forms::TextBox^ errorOutput;
 					 default:	// lettre d'identification reçu ou erreur
 						 switch(x)
 						 {
-						 case 'a':	// réception des données en graphe (U et I)
+						 case 's':	// réception des données en graphe (U et I)
 							 typevar=x;
 							 break;
 						 }
